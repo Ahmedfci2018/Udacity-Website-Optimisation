@@ -451,7 +451,7 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
    
-   var elementsOfPizza =getElementByClassName("randomPizzaContainer");
+   var elementsOfPizza =document.getElementByClassName("randomPizzaContainer");
    
    var dx=determineDx(elementsOfPizza[0],size);
    var nweWidth=(elementsOfPizza[0].offsetWidth+dx)+'px';
@@ -459,7 +459,7 @@ var resizePizzas = function(size) {
 
    for (var p=0;p<elementsOfPizza.length;p++){
 
-    elementsOfPizza[i].style.width=nweWidth;
+    elementsOfPizza[p].style.width=nweWidth;
 
    }
   }
@@ -509,10 +509,10 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.getElementByClassName('mover');
-  var stuff=(document.body.scrollTop / 1250);
+  var items = document.getElementsByClassName('mover');
+  var s=(document.body.scrollTop / 1250);
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(stuff + (i % 5));
+    var phase = Math.sin(s + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -532,7 +532,11 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+   var rows = Math.round(window.screen.height / s);
+  var pizzaCount = rows * cols;
+  //Changed querySelector call to getElementById, saved this DOM call to local variable, movingPizzas, outside of the for loop.
+  var movingPizzas = document.getElementById("movingPizzas1");
+  for (var i = 0; i < pizzaCount; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
@@ -540,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.getElementById("movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });
