@@ -27,3 +27,5 @@
 
 4. edit function of updatePositions.
 
+5. Move content of updatePosition var stuff outside function.
+
